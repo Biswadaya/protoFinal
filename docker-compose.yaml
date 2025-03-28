@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  python-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5002:5002"
+    depends_on:
+      - go-service
+
+  go-service:
+    build:
+      context: ./Verify-main
+      dockerfile: Dockerfile
+    ports:
+      - "9090:9090"
+
+  react-service:
+    build:
+      context: ./admin
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    stdin_open: true
+    tty: true
+    depends_on:
+      - go-service
